@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const Firewood = SpriteKind.create()
+    export const Candle = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (sprite, location) {
     if (pressButton(1)) {
@@ -28,6 +29,20 @@ function toggleLight () {
         torchOn = !(torchOn)
     }
 }
+function toggleLever () {
+    if (leverUp) {
+        tiles.setTileAt(tiles.getTileLocation(16, 0), sprites.dungeon.greenSwitchDown)
+        for (let 值 of sprites.allOfKind(SpriteKind.Candle)) {
+            multilights.addLightSource(值, 10)
+        }
+    } else {
+        tiles.setTileAt(tiles.getTileLocation(16, 0), sprites.dungeon.greenSwitchUp)
+        for (let 值 of sprites.allOfKind(SpriteKind.Candle)) {
+            multilights.removeLightSource(值)
+        }
+    }
+    leverUp = !(leverUp)
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, otherSprite) {
     otherSprite.sayText("A", 500, false)
     if (controller.A.isPressed()) {
@@ -37,11 +52,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, othe
         }
     }
 })
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (princessSprite.tileKindAt(TileDirection.Top, sprites.dungeon.greenSwitchUp) || princessSprite.tileKindAt(TileDirection.Top, sprites.dungeon.greenSwitchDown)) {
+        if (game.ask("拨动开关?")) {
+            toggleLever()
+        }
+    }
+})
 function enterRoom1 () {
     tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     toggleLight()
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+    sprite.sayText("?")
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
     if (pressButton(3)) {
@@ -68,6 +93,8 @@ let torchOn = false
 let firewoodSprite: Sprite = null
 let princessSprite: Sprite = null
 let currentRoomNumber = 0
+let leverUp = false
+leverUp = true
 currentRoomNumber = 1
 tiles.setTilemap(tilemap`级别1`)
 princessSprite = sprites.create(img`
@@ -131,6 +158,44 @@ firewoodSprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Firewood)
 tiles.placeOnRandomTile(firewoodSprite, assets.tile`myTile`)
+let candleSprite = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Candle)
+tiles.placeOnRandomTile(candleSprite, sprites.dungeon.greenOuterEast2)
+candleSprite = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Candle)
+tiles.placeOnRandomTile(candleSprite, sprites.dungeon.greenOuterSouth2)
 game.onUpdateInterval(2000, function () {
     if (currentRoomNumber == 2 && !(torchOn)) {
         game.splash("B使用火把")

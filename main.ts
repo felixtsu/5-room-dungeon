@@ -1,3 +1,6 @@
+namespace SpriteKind {
+    export const Firewood = SpriteKind.create()
+}
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (sprite, location) {
     if (pressButton(1)) {
         tiles.setTileAt(location, sprites.dungeon.buttonPinkDepressed)
@@ -25,6 +28,15 @@ function toggleLight () {
         torchOn = !(torchOn)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, otherSprite) {
+    otherSprite.sayText("A", 500, false)
+    if (controller.A.isPressed()) {
+        if (game.ask("点燃柴火？")) {
+            otherSprite.destroy(effects.fire, 2000)
+            multilights.addLightSource(otherSprite, 6)
+        }
+    }
+})
 function enterRoom1 () {
     tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
 }
@@ -53,6 +65,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
     }
 })
 let torchOn = false
+let firewoodSprite: Sprite = null
 let princessSprite: Sprite = null
 let currentRoomNumber = 0
 currentRoomNumber = 1
@@ -78,6 +91,46 @@ princessSprite = sprites.create(img`
 scene.cameraFollowSprite(princessSprite)
 controller.moveSprite(princessSprite)
 enterRoom1()
+for (let index = 0; index < 8; index++) {
+    firewoodSprite = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . e . . . . . . 
+        . . e e . . . . e e . . . . . . 
+        . . . e e d d e d . . . . . . . 
+        . . . . d e d e d d d e . e . . 
+        . . e . d d e e d e e e d e . . 
+        . . e e e e e e d e e . d e . . 
+        . . . f f e d e e e d d d f f . 
+        . . f . e d d e d e e d d e f . 
+        . . f f f f e e . e d e f f f . 
+        . . . e . f f f f f f f f . . . 
+        . . . e d e d e d e e e e e . . 
+        . . e . d . . e d e . e e e . . 
+        . . . . . . . e . e . . e . . . 
+        . . . . . . . . . e . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Firewood)
+    tiles.placeOnRandomTile(firewoodSprite, sprites.dungeon.floorLight2)
+}
+firewoodSprite = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . e . . . . . . 
+    . . e e . . . . e e . . . . . . 
+    . . . e e d d e d . . . . . . . 
+    . . . . d e d e d d d e . e . . 
+    . . e . d d e e d e e e d e . . 
+    . . e e e e e e d e e . d e . . 
+    . . . f f e d e e e d d d f f . 
+    . . f . e d d e d e e d d e f . 
+    . . f f f f e e . e d e f f f . 
+    . . . e . f f f f f f f f . . . 
+    . . . e d e d e d e e e e e . . 
+    . . e . d . . e d e . e e e . . 
+    . . . . . . . e . e . . e . . . 
+    . . . . . . . . . e . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Firewood)
+tiles.placeOnRandomTile(firewoodSprite, assets.tile`myTile`)
 game.onUpdateInterval(2000, function () {
     if (currentRoomNumber == 2 && !(torchOn)) {
         game.splash("B使用火把")

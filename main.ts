@@ -8,14 +8,29 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (spr
     }
 })
 function enterRoom2 () {
+    currentRoomNumber = 2
     multilights.toggleLighting(true)
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(14, 5))
 }
 function pressButton (answer: number) {
     return game.askForNumber("?", 1) == answer
 }
+function toggleLight () {
+    if (currentRoomNumber == 2) {
+        if (torchOn) {
+            multilights.removeLightSource(princessSprite)
+        } else {
+            multilights.addLightSource(princessSprite, 12)
+        }
+        torchOn = !(torchOn)
+    }
+}
 function enterRoom1 () {
     tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
 }
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    toggleLight()
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
     if (pressButton(3)) {
         tiles.setTileAt(location, sprites.dungeon.buttonOrangeDepressed)
@@ -37,7 +52,10 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
         info.changeLifeBy(-1)
     }
 })
+let torchOn = false
 let princessSprite: Sprite = null
+let currentRoomNumber = 0
+currentRoomNumber = 1
 tiles.setTilemap(tilemap`级别1`)
 princessSprite = sprites.create(img`
     . . . . . . 5 . 5 . . . . . . . 
@@ -57,5 +75,11 @@ princessSprite = sprites.create(img`
     . . . f f f f f f f f f f . . . 
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
+scene.cameraFollowSprite(princessSprite)
 controller.moveSprite(princessSprite)
 enterRoom1()
+game.onUpdateInterval(2000, function () {
+    if (currentRoomNumber == 2 && !(torchOn)) {
+        game.splash("B使用火把")
+    }
+})

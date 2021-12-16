@@ -4,9 +4,11 @@ namespace SpriteKind {
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (sprite, location) {
     if (pressButton(1)) {
+        music.playTone(262, music.beat(BeatFraction.Quarter))
         tiles.setTileAt(location, sprites.dungeon.buttonPinkDepressed)
+        revealTreasureIfAllButtonActivated()
     } else {
-        tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
+        tiles.placeOnTile(princessSprite, tiles.getTileLocation(4, 1))
         scene.cameraShake(4, 500)
         info.changeLifeBy(-1)
     }
@@ -14,10 +16,15 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (spr
 function enterRoom2 () {
     currentRoomNumber = 2
     multilights.toggleLighting(true)
-    tiles.placeOnTile(princessSprite, tiles.getTileLocation(14, 5))
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(15, 5))
 }
 function pressButton (answer: number) {
-    return game.askForNumber("?", 1) == answer
+    if (game.askForNumber("?", 1) == answer) {
+        activatedButton += 1
+        return true
+    } else {
+        return false
+    }
 }
 function toggleLight () {
     if (currentRoomNumber == 2) {
@@ -31,12 +38,12 @@ function toggleLight () {
 }
 function toggleLever () {
     if (leverUp) {
-        tiles.setTileAt(tiles.getTileLocation(16, 0), sprites.dungeon.greenSwitchDown)
+        tiles.setTileAt(tiles.getTileLocation(17, 0), sprites.dungeon.greenSwitchDown)
         for (let 值 of sprites.allOfKind(SpriteKind.Candle)) {
             multilights.addLightSource(值, 10)
         }
     } else {
-        tiles.setTileAt(tiles.getTileLocation(16, 0), sprites.dungeon.greenSwitchUp)
+        tiles.setTileAt(tiles.getTileLocation(17, 0), sprites.dungeon.greenSwitchUp)
         for (let 值 of sprites.allOfKind(SpriteKind.Candle)) {
             multilights.removeLightSource(值)
         }
@@ -58,9 +65,22 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             toggleLever()
         }
     }
+    if (princessSprite.tileKindAt(TileDirection.Center, sprites.dungeon.chestClosed)) {
+        if (game.ask("打开宝箱？")) {
+            tiles.setTileAt(tiles.getTileLocation(7, 1), sprites.dungeon.chestOpen)
+            game.splash("一股邪恶的诅咒落在你的头上")
+        } else {
+        	
+        }
+    }
 })
+function revealTreasureIfAllButtonActivated () {
+    if (activatedButton == 3) {
+        tiles.setTileAt(tiles.getTileLocation(7, 1), sprites.dungeon.chestClosed)
+    }
+}
 function enterRoom1 () {
-    tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(4, 1))
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     toggleLight()
@@ -70,9 +90,11 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
     if (pressButton(3)) {
+        music.playTone(262, music.beat(BeatFraction.Quarter))
         tiles.setTileAt(location, sprites.dungeon.buttonOrangeDepressed)
+        revealTreasureIfAllButtonActivated()
     } else {
-        tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
+        tiles.placeOnTile(princessSprite, tiles.getTileLocation(4, 1))
         scene.cameraShake(4, 500)
         info.changeLifeBy(-1)
     }
@@ -82,9 +104,11 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.doorOpenNorth, function (
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (sprite, location) {
     if (pressButton(2)) {
+        music.playTone(262, music.beat(BeatFraction.Quarter))
         tiles.setTileAt(location, sprites.dungeon.buttonTealDepressed)
+        revealTreasureIfAllButtonActivated()
     } else {
-        tiles.placeOnTile(princessSprite, tiles.getTileLocation(3, 1))
+        tiles.placeOnTile(princessSprite, tiles.getTileLocation(4, 1))
         scene.cameraShake(4, 500)
         info.changeLifeBy(-1)
     }
@@ -92,10 +116,12 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
 let torchOn = false
 let firewoodSprite: Sprite = null
 let princessSprite: Sprite = null
+let activatedButton = 0
 let currentRoomNumber = 0
 let leverUp = false
 leverUp = true
 currentRoomNumber = 1
+activatedButton = 0
 tiles.setTilemap(tilemap`级别1`)
 princessSprite = sprites.create(img`
     . . . . . . 5 . 5 . . . . . . . 

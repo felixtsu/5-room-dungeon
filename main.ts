@@ -31,6 +31,7 @@ function toggleLight () {
         if (torchOn) {
             multilights.removeLightSource(princessSprite)
         } else {
+            torchIndicatorShown = true
             multilights.addLightSource(princessSprite, 12)
         }
         torchOn = !(torchOn)
@@ -116,12 +117,14 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
 let torchOn = false
 let firewoodSprite: Sprite = null
 let princessSprite: Sprite = null
+let torchIndicatorShown = false
 let activatedButton = 0
 let currentRoomNumber = 0
 let leverUp = false
 leverUp = true
 currentRoomNumber = 1
 activatedButton = 0
+torchIndicatorShown = false
 tiles.setTilemap(tilemap`级别1`)
 princessSprite = sprites.create(img`
     . . . . . . 5 . 5 . . . . . . . 
@@ -224,6 +227,8 @@ candleSprite = sprites.create(img`
 tiles.placeOnRandomTile(candleSprite, sprites.dungeon.greenOuterSouth2)
 game.onUpdateInterval(2000, function () {
     if (currentRoomNumber == 2 && !(torchOn)) {
-        game.splash("B使用火把")
+        if (!(torchIndicatorShown)) {
+            game.splash("B使用火把")
+        }
     }
 })

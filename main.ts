@@ -16,7 +16,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (spr
 function enterRoom2 () {
     currentRoomNumber = 2
     multilights.toggleLighting(true)
-    tiles.placeOnTile(princessSprite, tiles.getTileLocation(15, 5))
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(15, 4))
 }
 function pressButton (answer: number) {
     if (game.askForNumber("?", 1) == answer) {
@@ -57,7 +57,8 @@ function toggleLever () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, otherSprite) {
     otherSprite.sayText("A", 500, false)
     if (controller.A.isPressed()) {
-        if (game.ask("点燃柴火？")) {
+        if (lightFirewoodShown || game.ask("点燃柴火？")) {
+            lightFirewoodShown = true
             otherSprite.destroy(effects.fire, 2000)
             multilights.addLightSource(otherSprite, 6)
         }
@@ -69,7 +70,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, l
 function enterRoom3 () {
     currentRoomNumber = 3
     multilights.toggleLighting(true)
-    tiles.placeOnTile(princessSprite, tiles.getTileLocation(15, 15))
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(15, 14))
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (princessSprite.tileKindAt(TileDirection.Top, sprites.dungeon.greenSwitchUp) || princessSprite.tileKindAt(TileDirection.Top, sprites.dungeon.greenSwitchDown)) {
@@ -106,7 +107,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 function enterRoom4 () {
     currentRoomNumber = 4
     multilights.toggleLighting(true)
-    tiles.placeOnTile(princessSprite, tiles.getTileLocation(29, 12))
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(29, 11))
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
     if (pressButton(3)) {
@@ -136,6 +137,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
 let torchOn = false
 let firewoodSprite: Sprite = null
 let princessSprite: Sprite = null
+let lightFirewoodShown = false
 let torchIndicatorShown = false
 let activatedButton = 0
 let currentRoomNumber = 0
@@ -144,6 +146,7 @@ leverUp = true
 currentRoomNumber = 1
 activatedButton = 0
 torchIndicatorShown = false
+lightFirewoodShown = false
 tiles.setTilemap(tilemap`级别1`)
 princessSprite = sprites.create(img`
     . . . . . . 5 . 5 . . . . . . . 

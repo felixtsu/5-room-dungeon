@@ -26,8 +26,11 @@ function pressButton (answer: number) {
         return false
     }
 }
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairNorth, function (sprite, location) {
+    enterRoom1()
+})
 function toggleLight () {
-    if (currentRoomNumber == 2) {
+    if (currentRoomNumber != 1) {
         if (torchOn) {
             multilights.removeLightSource(princessSprite)
         } else {
@@ -60,6 +63,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, othe
         }
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
+    enterRoom4()
+})
+function enterRoom3 () {
+    currentRoomNumber = 3
+    multilights.toggleLighting(true)
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(15, 15))
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (princessSprite.tileKindAt(TileDirection.Top, sprites.dungeon.greenSwitchUp) || princessSprite.tileKindAt(TileDirection.Top, sprites.dungeon.greenSwitchDown)) {
         if (game.ask("拨动开关?")) {
@@ -75,6 +86,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
+    enterRoom3()
+})
 function revealTreasureIfAllButtonActivated () {
     if (activatedButton == 3) {
         tiles.setTileAt(tiles.getTileLocation(7, 1), sprites.dungeon.chestClosed)
@@ -87,8 +101,13 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     toggleLight()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    sprite.sayText("?")
+    sprite.sayText("?", 100, false)
 })
+function enterRoom4 () {
+    currentRoomNumber = 4
+    multilights.toggleLighting(true)
+    tiles.placeOnTile(princessSprite, tiles.getTileLocation(29, 12))
+}
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
     if (pressButton(3)) {
         music.playTone(262, music.beat(BeatFraction.Quarter))
@@ -166,7 +185,7 @@ for (let index = 0; index < 8; index++) {
         . . . . . . . . . e . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Firewood)
-    tiles.placeOnRandomTile(firewoodSprite, sprites.dungeon.floorLight2)
+    tiles.placeOnRandomTile(firewoodSprite, sprites.dungeon.floorDark2)
 }
 firewoodSprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 

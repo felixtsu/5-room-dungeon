@@ -69,6 +69,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, othe
 sprites.onOverlap(SpriteKind.Player, SpriteKind.OrbBase, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
         aimingOrb = true
+        aimingLine = custom.createAimingLine(princessSprite, otherSprite)
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
@@ -152,6 +153,7 @@ controller.A.onEvent(ControllerButtonEvent.Released, function () {
         orbSprite.setFlag(SpriteFlag.GhostThroughWalls, true)
         orbSprite.setPosition(princessSprite.x, princessSprite.y)
         cubicbird.moveTowards(orbSprite, orbBase, 80)
+        custom.destroy(aimingLine)
         aimingOrb = false
     }
 })
@@ -171,6 +173,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
 })
 let orbSprite: Sprite = null
 let aimingOrb = false
+let aimingLine :custom.AimingLine = null
 let torchOn = false
 let orbBase: Sprite = null
 let firewoodSprite: Sprite = null

@@ -69,7 +69,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, othe
 sprites.onOverlap(SpriteKind.Player, SpriteKind.OrbBase, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
         aimingOrb = true
-        custom.drawAimLine(sprite, otherSprite)
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {

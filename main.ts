@@ -1,6 +1,8 @@
 namespace SpriteKind {
     export const Firewood = SpriteKind.create()
     export const Candle = SpriteKind.create()
+    export const OrbBase = SpriteKind.create()
+    export const Orb = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPink, function (sprite, location) {
     if (pressButton(1)) {
@@ -48,8 +50,8 @@ function toggleLever () {
         }
     } else {
         tiles.setTileAt(tiles.getTileLocation(17, 0), sprites.dungeon.greenSwitchUp)
-        for (let 值 of sprites.allOfKind(SpriteKind.Candle)) {
-            multilights.removeLightSource(值)
+        for (let 值2 of sprites.allOfKind(SpriteKind.Candle)) {
+            multilights.removeLightSource(值2)
         }
     }
     leverUp = !(leverUp)
@@ -62,6 +64,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, othe
             otherSprite.destroy(effects.fire, 2000)
             multilights.addLightSource(otherSprite, 6)
         }
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.OrbBase, function (sprite, otherSprite) {
+    if (controller.A.isPressed()) {
+        aimingOrb = true
+        custom.drawAimLine(sprite, otherSprite)
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile4`, function (sprite, location) {
@@ -106,7 +114,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 })
 function enterRoom4 () {
     currentRoomNumber = 4
-    multilights.toggleLighting(true)
+    multilights.toggleLighting(false)
     tiles.placeOnTile(princessSprite, tiles.getTileLocation(29, 11))
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
@@ -118,6 +126,34 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (s
         tiles.placeOnTile(princessSprite, tiles.getTileLocation(4, 1))
         scene.cameraShake(4, 500)
         info.changeLifeBy(-1)
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Released, function () {
+    if (aimingOrb) {
+        orbSprite = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 2 2 2 . . . . . . . 
+            . . . . . 2 2 3 2 2 . . . . . . 
+            . . . . 2 2 3 1 3 2 2 . . . . . 
+            . . . . 2 3 1 1 1 3 2 . . . . . 
+            . . . . 2 2 3 1 3 2 2 . . . . . 
+            . . . . . 2 2 3 2 2 . . . . . . 
+            . . . . . . 2 2 2 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Orb)
+        multilights.addLightSource(orbSprite, 8)
+        orbSprite.lifespan = 2000
+        orbSprite.setFlag(SpriteFlag.GhostThroughWalls, true)
+        orbSprite.setPosition(princessSprite.x, princessSprite.y)
+        cubicbird.moveTowards(orbSprite, orbBase, 80)
+        aimingOrb = false
     }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.doorOpenNorth, function (sprite, location) {
@@ -134,7 +170,10 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
         info.changeLifeBy(-1)
     }
 })
+let orbSprite: Sprite = null
+let aimingOrb = false
 let torchOn = false
+let orbBase: Sprite = null
 let firewoodSprite: Sprite = null
 let princessSprite: Sprite = null
 let lightFirewoodShown = false
@@ -247,6 +286,16 @@ candleSprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Candle)
 tiles.placeOnRandomTile(candleSprite, sprites.dungeon.greenOuterSouth2)
+orbBase = sprites.create(assets.image`myImage`, SpriteKind.OrbBase)
+multilights.addLightSource(orbBase, 16)
+tiles.placeOnTile(orbBase, tiles.getTileLocation(32, 7))
+game.onUpdateInterval(2000, function () {
+    if (currentRoomNumber == 2 && !(torchOn)) {
+        if (!(torchIndicatorShown)) {
+            game.splash("B使用火把")
+        }
+    }
+})
 game.onUpdateInterval(2000, function () {
     if (currentRoomNumber == 2 && !(torchOn)) {
         if (!(torchIndicatorShown)) {

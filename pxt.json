@@ -3,7 +3,8 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "pxt-lantern": "github:felixtsu/pxt-lantern#v0.2.0"
+        "pxt-lantern": "github:felixtsu/pxt-lantern#v0.2.0",
+        "cubicbird-helper-blocks": "github:felixtsu/cubicbird-helper-blocks#v0.6.2"
     },
     "files": [
         "main.blocks",
@@ -11,7 +12,10 @@
         "README.md",
         "assets.json",
         "tilemap.g.jres",
-        "tilemap.g.ts"
+        "tilemap.g.ts",
+        "images.g.jres",
+        "images.g.ts",
+        "custom.ts"
     ],
     "testFiles": [
         "test.ts"
@@ -23,5 +27,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }

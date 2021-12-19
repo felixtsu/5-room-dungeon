@@ -105,6 +105,7 @@ function revealTreasureIfAllButtonActivated () {
 }
 function enterRoom1 () {
     tiles.placeOnTile(princessSprite, tiles.getTileLocation(4, 1))
+    multilights.toggleLighting(false)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     toggleLight()
@@ -114,7 +115,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 })
 function enterRoom4 () {
     currentRoomNumber = 4
-    multilights.toggleLighting(false)
+    multilights.toggleLighting(true)
     tiles.placeOnTile(princessSprite, tiles.getTileLocation(29, 11))
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
@@ -172,8 +173,8 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
     }
 })
 let orbSprite: Sprite = null
+let aimingLine: custom.AimingLine = null
 let aimingOrb = false
-let aimingLine :custom.AimingLine = null
 let torchOn = false
 let orbBase: Sprite = null
 let firewoodSprite: Sprite = null

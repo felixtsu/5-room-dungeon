@@ -42,6 +42,65 @@ function toggleLight () {
         torchOn = !(torchOn)
     }
 }
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    princessSprite,
+    [img`
+        . . . . . . . 5 5 . . . . . . . 
+        . . . . . f 5 5 5 5 f . . . . . 
+        . . . . f 6 6 6 6 6 6 f . . . . 
+        . . . f 6 1 1 1 6 1 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . f f 6 6 6 6 6 6 6 6 f f . . 
+        . f 6 6 6 f 6 6 6 6 f 6 6 6 f . 
+        . . f f f 3 f f f f 3 f f f . . 
+        . . . f d 5 3 3 3 3 5 d f . . . 
+        . . f d d f 3 3 3 3 f d d f . . 
+        . . . f f f 5 3 3 5 f f f . . . 
+        . . . . f 3 3 5 5 3 3 f . . . . 
+        . . . . f 3 3 3 3 3 3 f . . . . 
+        . . . . . f f f f f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 5 5 . . . . . . . 
+        . . . . . f 5 5 5 5 f . . . . . 
+        . . . . f 6 6 6 6 6 6 f . . . . 
+        . . . f 6 1 1 1 6 1 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . f f 6 6 6 6 6 6 6 6 f f . . 
+        . f 6 6 6 f 6 6 6 6 f 6 6 6 f . 
+        . . f f f 3 f f f f 5 f f f . . 
+        . . . f d f 3 3 3 3 d d f . . . 
+        . . . . f 3 5 3 3 f d d f . . . 
+        . . . . f 3 3 5 5 3 f f . . . . 
+        . . . . f f 3 3 f f . . . . . . 
+        . . . . . . f f . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 5 5 . . . . . . . 
+        . . . . . f 5 5 5 5 f . . . . . 
+        . . . . f 6 6 6 6 6 6 f . . . . 
+        . . . f 6 1 1 1 6 1 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . . f 6 6 6 6 6 6 6 6 f . . . 
+        . . f f 6 6 6 6 6 6 6 6 f f . . 
+        . f 6 6 6 f 6 6 6 6 f 6 6 6 f . 
+        . . f f f 5 f f f f 3 f f f . . 
+        . . . f d d 3 3 3 3 f d f . . . 
+        . . . f d d f 3 3 5 3 f . . . . 
+        . . . . f f 3 5 5 3 3 f . . . . 
+        . . . . . . f f 3 3 f f . . . . 
+        . . . . . . . . f f . . . . . . 
+        `],
+    200,
+    true
+    )
+})
 function toggleLever () {
     if (leverUp) {
         tiles.setTileAt(tiles.getTileLocation(17, 0), sprites.dungeon.greenSwitchDown)
@@ -65,6 +124,65 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Firewood, function (sprite, othe
             multilights.addLightSource(otherSprite, 6)
         }
     }
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    princessSprite,
+    [img`
+        . . . . . . 5 . 5 . . . . . . . 
+        . . . . . f 5 5 5 f f . . . . . 
+        . . . . f 1 5 2 5 1 6 f . . . . 
+        . . . f 1 6 6 6 6 6 1 6 f . . . 
+        . . . f 6 6 f f f f 6 1 f . . . 
+        . . . f 6 f f d d f f 6 f . . . 
+        . . f 6 f d f d d f d f 6 f . . 
+        . . f 6 f d 3 d d 3 d f 6 f . . 
+        . . f 6 6 f d d d d f 6 6 f . . 
+        . f 6 6 f 3 f f f f 3 f 6 6 f . 
+        . . f f d 3 5 3 3 5 3 d f f . . 
+        . . f d d f 3 5 5 3 f d d f . . 
+        . . . f f 3 3 3 3 3 3 f f . . . 
+        . . . f 3 3 5 3 3 5 3 3 f . . . 
+        . . . f f f f f f f f f f . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . . . . . . 5 . 5 . . . . . . . 
+        . . . . . f 5 5 5 f f . . . . . 
+        . . . . f 1 5 2 5 1 6 f . . . . 
+        . . . f 1 6 6 6 6 6 1 6 f . . . 
+        . . . f 6 6 f f f f 6 1 f . . . 
+        . . . f 6 f f d d f f 6 f . . . 
+        . . f 6 f d f d d f d f 6 f . . 
+        . . f 6 f d 3 d d 3 d f 6 f . . 
+        . . f 6 6 f d d d d f 6 6 f . . 
+        . f 6 6 f 3 f f f f 3 f 6 6 f . 
+        . . f f 3 3 5 3 3 5 3 d f f . . 
+        . . . f d f 3 5 5 3 f f d f . . 
+        . . . f d f 3 3 3 3 3 f f . . . 
+        . . . f f 3 5 3 3 5 3 3 f . . . 
+        . . . . f f f f f f f f f . . . 
+        . . . . . . . . . f f . . . . . 
+        `,img`
+        . . . . . . 5 . 5 . . . . . . . 
+        . . . . . f 5 5 5 f f . . . . . 
+        . . . . f 1 5 2 5 1 6 f . . . . 
+        . . . f 1 6 6 6 6 6 1 6 f . . . 
+        . . . f 6 6 f f f f 6 1 f . . . 
+        . . . f 6 f f d d f f 6 f . . . 
+        . . f 6 f d f d d f d f 6 f . . 
+        . . f 6 f d 3 d d 3 d f 6 f . . 
+        . . f 6 6 f d d d d f 6 6 f . . 
+        . f 6 6 f 3 f f f f 3 f 6 6 f . 
+        . . f f d 3 5 3 3 5 3 3 f f . . 
+        . . f d f f 3 5 5 3 f d f . . . 
+        . . . f f 3 3 3 3 3 f d f . . . 
+        . . . f 3 3 5 3 3 5 3 f f . . . 
+        . . . f f f f f f f f f . . . . 
+        . . . . . f f . . . . . . . . . 
+        `],
+    200,
+    true
+    )
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.OrbBase, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
@@ -94,6 +212,65 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         	
         }
     }
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    princessSprite,
+    [img`
+        . . . . . . . 5 . 5 . . . . . . 
+        . . . . . . f 5 5 5 f . . . . . 
+        . . . . . f 6 5 5 2 6 f . . . . 
+        . . . . f 6 6 1 6 6 6 6 f . . . 
+        . . . . f 6 1 6 6 6 6 6 f . . . 
+        . . . . f 1 6 6 6 d f d f . . . 
+        . . . f f 6 6 6 6 d f d f . . . 
+        . . f 6 f 6 6 6 d d 3 d f . . . 
+        . . . f f 6 f f d d d f . . . . 
+        . . f 6 6 6 f 3 5 f f . . . . . 
+        . . . f f f f f 3 3 5 f . . . . 
+        . . . . . . f d f 3 3 f . . . . 
+        . . . . . . f d f 3 f . . . . . 
+        . . . . . f d f 3 5 3 f . . . . 
+        . . . . . . f f 3 3 f f . . . . 
+        . . . . . . . f f f . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 . 5 . . . . . . . 
+        . . . . . f 5 5 5 f . . . . . . 
+        . . . . f 6 5 5 2 6 f . . . . . 
+        . . . f 6 6 1 6 6 6 6 f . . . . 
+        . . . f 6 1 6 6 6 6 6 f . . . . 
+        . . . f 1 6 6 6 d f d f . . . . 
+        . . f f 6 6 6 6 d f d f . . . . 
+        . f 6 f 6 6 6 d d 3 d f . . . . 
+        . . f f 6 f f d d d f . . . . . 
+        . f 6 6 f f 3 3 f f . . . . . . 
+        . . f f f f d d d d f . . . . . 
+        . . . . f 3 f d d d f . . . . . 
+        . . . f 3 5 d f f f . . . . . . 
+        . . . . f f 3 3 f f f . . . . . 
+        . . . . f f f f f f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 5 . 5 . . . . . . . 
+        . . . . . f 5 5 5 f . . . . . . 
+        . . . . f 6 5 5 2 6 f . . . . . 
+        . . . f 6 6 1 6 6 6 6 f . . . . 
+        . . . f 6 1 6 6 6 6 6 f . . . . 
+        . . . f 1 6 6 6 d f d f . . . . 
+        . . f f 6 6 6 6 d f d f . . . . 
+        . f 6 f 6 6 6 d d 3 d f . . . . 
+        . . f f 6 f f d d d f . . . . . 
+        . f 6 6 f f 3 3 f f . . . . . . 
+        . . f f f d d 3 3 5 f . . . . . 
+        . . . f d d f 3 3 3 f . . . . . 
+        . . . . f f f 5 3 f . . . . . . 
+        . . . . . f 3 3 3 3 f . . . . . 
+        . . . . . f f f f f . . . . . . 
+        `],
+    200,
+    true
+    )
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, location) {
     enterRoom3()
@@ -128,6 +305,65 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (s
         scene.cameraShake(4, 500)
         info.changeLifeBy(-1)
     }
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    princessSprite,
+    [img`
+        . . . . . . 5 . 5 . . . . . . . 
+        . . . . . f 5 5 5 f . . . . . . 
+        . . . . f 6 2 5 5 6 f . . . . . 
+        . . . f 6 6 6 6 1 6 6 f . . . . 
+        . . . f 6 6 6 6 6 1 6 f . . . . 
+        . . . f d f d 6 6 6 1 f . . . . 
+        . . . f d f d 6 6 6 6 f f . . . 
+        . . . f d 3 d d 6 6 6 f 6 f . . 
+        . . . . f d d d f f 6 f f . . . 
+        . . . . . f f 5 3 f 6 6 6 f . . 
+        . . . . f 5 3 3 f f f f f . . . 
+        . . . . f 3 3 f d f . . . . . . 
+        . . . . . f 3 f d f . . . . . . 
+        . . . . f 3 5 3 f d f . . . . . 
+        . . . . f f 3 3 f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 5 . 5 . . . . . . 
+        . . . . . . f 5 5 5 f . . . . . 
+        . . . . . f 6 2 5 5 6 f . . . . 
+        . . . . f 6 6 6 6 1 6 6 f . . . 
+        . . . . f 6 6 6 6 6 1 6 f . . . 
+        . . . . f d f d 6 6 6 1 f . . . 
+        . . . . f d f d 6 6 6 6 f f . . 
+        . . . . f d 3 d d 6 6 6 f 6 f . 
+        . . . . . f d d d f f 6 f f . . 
+        . . . . . . f f 3 3 f f 6 6 f . 
+        . . . . . f d d d d f f f f . . 
+        . . . . . f d d d f 3 f . . . . 
+        . . . . . . f f f d 5 3 f . . . 
+        . . . . . f f f 3 3 f f . . . . 
+        . . . . . f f f f f f f . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . 5 . 5 . . . . . . 
+        . . . . . . f 5 5 5 f . . . . . 
+        . . . . . f 6 2 5 5 6 f . . . . 
+        . . . . f 6 6 6 6 1 6 6 f . . . 
+        . . . . f 6 6 6 6 6 1 6 f . . . 
+        . . . . f d f d 6 6 6 1 f . . . 
+        . . . . f d f d 6 6 6 6 f f . . 
+        . . . . f d 3 d d 6 6 6 f 6 f . 
+        . . . . . f d d d f f 6 f f . . 
+        . . . . . . f f 3 3 f f 6 6 f . 
+        . . . . . f 5 3 3 d d f f f . . 
+        . . . . . f 3 3 3 f d d f . . . 
+        . . . . . . f 3 5 f f f . . . . 
+        . . . . . f 3 3 3 3 f . . . . . 
+        . . . . . . f f f f f . . . . . 
+        `],
+    200,
+    true
+    )
 })
 controller.A.onEvent(ControllerButtonEvent.Released, function () {
     if (aimingOrb) {
